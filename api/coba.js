@@ -29,7 +29,15 @@ module.exports = async (req, res) => {
   }
 
   try {
-    const prompt = req.query.isi || 'hi';
+    const userPrompt = req.query.isi;
+
+    // Validasi bahwa query 'isi' harus ada
+    if (!userPrompt) {
+      res.status(400).send({ error: 'Tidak ada perintah' });
+      return;
+    }
+
+    const fullPrompt = `Berikan roasting singkat dengan kejam, menyindir, lucu, serta menyakitkan dalam bahasa gaul untuk profile Instagram berikut: ${userPrompt}`;
 
     // Ambil data nonce dari halaman target
     const nonce = await new Promise((resolve, reject) => {
@@ -61,7 +69,7 @@ module.exports = async (req, res) => {
     form.append('post_id', '221');
     form.append('url', 'https://chatgptfree.onl');
     form.append('action', 'wpaicg_chat_shortcode_message');
-    form.append('message', prompt);
+    form.append('message', fullPrompt);
     form.append('bot_id', '0');
     form.append('chatbot_identity', 'shortcode');
     
