@@ -53,7 +53,7 @@ module.exports = async (req, res) => {
       return;
     }
 
-    const fullPrompt = `Buatkan roasting yang singkat, kejam, dan menyakitkan buat dia marah untuk profil Instagram berikut: ${userPrompt} .Gunakan bahasa gaul dan sindiran tajam yang bisa bikin mental down`;
+    const fullPrompt = `Berikan roasting singkat dengan kejam, menyindir, serta menyakitkan dalam bahasa gaul untuk profile Instagram berikut: ${userPrompt}`;
 
     // Ambil data nonce dari halaman target
     const nonce = await new Promise((resolve, reject) => {
