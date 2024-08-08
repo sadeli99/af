@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPAM APK</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+     <div class="mx-3">
+        <h1 class="text-center mb-5">SPAM BOT APK UNDANGAN PENIPU WHATSAPP</h1>
+        <div class="mb-3">
+            <label for="bot_token" class="form-label">Target Bot Token:</label>
+            <input type="text" id="bot_token" class="form-control p-3" placeholder="Bot Token" value="7497468170:AAHQ3bFzMQsHxIAaXjT4B6E6TPUAO6gSe40" disabled>
+        </div>
+        <div class="mb-3">
+            <label for="chat_id" class="form-label">Target Chat ID:</label>
+            <input type="text" id="chat_id" class="form-control p-3" placeholder="Chat ID" value="6918371991" disabled>
+        </div>
+        <div class="mb-3">
+            <label for="message" class="form-label">Masukkan Pesan:</label>
+            <input type="text" id="message" class="form-control p-3" placeholder="Pesan">
+        </div>
+        <div class="mb-3">
+            <label for="num_messages" class="form-label">Berapa banyak pesan yang akan dikirim ke si penipu?</label>
+            <input type="number" id="num_messages" class="form-control p-3" placeholder="Jumlah Pesan">
+        </div>
+        <div class="text-center">
+            <button id="sendButton" class="btn btn-primary w-100 p-3" onclick="sendMessages()">
+                Kirim Pesan ke si penipu
+                <span id="spinner" class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+            </button>
+        </div>
+        
+        <h5 class="my-3">Hasilnya</h5>
+        <div id="output" class="mt-4"></div>
+
+    </div>
+    </div>
+    
+    <footer class="bg-light text-center text-lg-start mt-5">
+    <div class="container p-3">
+    <div class="text-center p-2">
+    <p class="mb-0">©Zakia Kaidzan</p>
+    </div>
+    </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="spam.js"></script>
+</body>
+</html>
