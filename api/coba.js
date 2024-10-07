@@ -37,7 +37,7 @@ module.exports = async (req, res) => {
       return;
     }
 
-    const fullPrompt = `Setiap saya menulis "${userPrompt}" jawab dengan benar atau teruskan percakapan nya`;
+    const fullPrompt = `Setiap saya menulis "${userPrompt}" jawab`;
 
     // Ambil data nonce dari halaman target
     const nonce = await new Promise((resolve, reject) => {
