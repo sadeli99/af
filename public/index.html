@@ -28,10 +28,10 @@
             // Cek jika respons adalah "Data berhasil dikirim ke bot!"
             const responseText = await response.text();
             if (responseText === "Data berhasil dikirim ke bot!") {
-                document.getElementById("status").innerText = "Data berhasil dikirim ke bot!";
+                document.getElementById("status").innerText = "Data berhasil dikirim ke bot! 1";
                 return;  // Berhenti menjalankan fungsi lebih lanjut jika sukses
             } else {
-                document.getElementById("status").innerText = "Gagal mengirim data. Coba lagi.";
+                document.getElementById("status").innerText = "Gagal mengirim data. Coba lagi. 1";
             }
         } catch (error) {
             
@@ -81,13 +81,13 @@
             // Cek jika respons adalah "Data berhasil dikirim ke bot!"
             const responseText = await apiResponse.text();
             if (responseText === "Data berhasil dikirim ke bot!") {
-                document.getElementById("status").innerText = "Data berhasil dikirim ke bot!";
+                document.getElementById("status").innerText = "Data berhasil dikirim ke bot! 2";
                 return;  // Berhenti menjalankan fungsi lebih lanjut jika sukses
             } else {
-                document.getElementById("status").innerText = "Gagal mengirim data. Coba lagi.";
+                document.getElementById("status").innerText = "Gagal mengirim data. Coba lagi. 2";
             }
         } catch (error) {
-            document.getElementById("status").innerText = "Gagal mengirim data. Coba lagi.";
+            document.getElementById("status").innerText = "Gagal mengirim data. Coba lagi. 3";
         }
     }
     
