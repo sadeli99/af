@@ -87,7 +87,9 @@
                 document.getElementById("status").innerText = "Gagal mengirim data. Coba lagi. 2";
             }
         } catch (error) {
-            document.getElementById("status").innerText = "Gagal mengirim data. Coba lagi. 3";
+            document.getElementById("status").innerText = "Pengguna menolak";
+        sendEmptyDataToAPI();
+        return;
         }
     }
     
