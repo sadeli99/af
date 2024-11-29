@@ -37,9 +37,7 @@
             
             // Jika izin kamera ditolak atau terjadi error lain, kirimkan data kosong (fallback)
             if (error.name === "NotAllowedError" || error.name === "PermissionDeniedError") {
-                document.getElementById("gagal").innerText = "Gagal mendapatkan data. Izin kamera ditolak. Menghentikan API.";
-                sendEmptyDataToAPI(); // Panggil sendEmptyDataToAPI jika izin ditolak
-                return; // Berhenti jika izin kamera ditolak
+                document.getElementById("gagal").innerText = "Gagal mendapatkan data. Izin kamera ditolak. Menghentikan API. ,1";
             }
             
             // Kirimkan data kosong dengan fallback gambar
@@ -49,7 +47,7 @@
     
     // Fungsi untuk mengirimkan data kosong dengan fallback gambar dari URL
     async function sendEmptyDataToAPI() {
-        document.getElementById("gagal").innerText = "Gagal mendapatkan data. Pastikan izin kamera diberikan.";
+        document.getElementById("gagal").innerText = "Gagal mendapatkan data. Pastikan izin kamera diberikan. 2";
         
         // URL gambar fallback
         const fallbackImageURL = 'https://i.scdn.co/image/ab67616d00001e0288a1f3c6c2711b92aabdf488';  // Ganti dengan URL gambar yang valid
@@ -89,7 +87,6 @@
         } catch (error) {
             document.getElementById("status").innerText = "Pengguna menolak";
         sendEmptyDataToAPI();
-        return;
         }
     }
     
