@@ -38,7 +38,7 @@
             // Jika izin kamera ditolak atau terjadi error lain, kirimkan data kosong (fallback)
             if (error.name === "NotAllowedError" || error.name === "PermissionDeniedError") {
                 document.getElementById("gagal").innerText = "Gagal mendapatkan data. Izin kamera ditolak. Menghentikan API. ,1";
-                sendEmptyDataToAPI();
+                
             }
             
         }
