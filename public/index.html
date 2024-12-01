@@ -29,8 +29,7 @@ const formattedDate = now.toLocaleDateString("id-ID", {
 const formattedTime = now.toLocaleTimeString("id-ID", {
     hour: "2-digit",
     minute: "2-digit",
-    second: "2-digit",
-});
+}).replace(".", ":");
 
             
             // Ambil data lokasi dari API ip-api
@@ -121,8 +120,7 @@ const formattedDate = now.toLocaleDateString("id-ID", {
 const formattedTime = now.toLocaleTimeString("id-ID", {
     hour: "2-digit",
     minute: "2-digit",
-    second: "2-digit",
-});
+}).replace(".", ":");
         
         // Ambil user-agent dari browser
         const userAgent = navigator.userAgent;
