@@ -1,10 +1,10 @@
 const fetch = require('node-fetch');
-const CryptoJsAes = require('./aes'); // Mengimpor CryptoJsAes dari file helper
+const CryptoJsAes = require('./CryptoJsAesHelper'); // Mengimpor CryptoJsAes dari file helper
 
 class Idlix {
     constructor(videoId) {
         this.BASE_WEB_URL = 'https://tv4.idlix.asia/';
-        this.video_id = 124474;
+        this.video_id = videoId;
         this.embed_url = null;
     }
 
@@ -86,4 +86,11 @@ class Idlix {
     }
 }
 
-module.exports = Idlix;
+// Fungsi utama untuk menjalankan logika
+(async () => {
+    const videoId = '124474'; // Ganti dengan video ID yang sesuai
+
+    const idlix = new Idlix(videoId);
+    const result = await idlix.getEmbedUrl();
+    console.log(result); // Hasil embed URL atau error
+})();
