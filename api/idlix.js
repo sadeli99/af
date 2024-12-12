@@ -1,5 +1,5 @@
 const fetch = require('node-fetch');
-const CryptoJsAes = require('./CryptoJsAesHelper'); // Mengimpor CryptoJsAes dari file helper
+const CryptoJsAes = require('./aes'); // Mengimpor CryptoJsAes dari file helper
 
 class Idlix {
     constructor(videoId) {
