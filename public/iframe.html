@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Proxy</title>
+    <style>
+    html,body{
+    margin:0;
+    padding:0;
+    overflow:hidden;
+    width:100%;
+    height:100%;
+    }
+    
+    #player{
+    width:100%;
+    height: 100%;
+    }
+    </style> 
+</head>
+<body>
+    <div id="player"></div>
+    <script src="https://cdn.jsdelivr.net/npm/cdnbye@latest"></script>
+    <script src="https://kiflix.vercel.app/playerjs_netflix_19.9.9.js" type="text/javascript"></script>
+    <script>
+    // Fungsi untuk mendapatkan parameter dari URL
+    function getUrlParameter(name) {
+        var url = new URL(window.location.href);
+        return url.searchParams.get(name);
+    }
+
+    // Ambil parameter 'file' dan 'subtitle' dari URL
+    var videoFile = getUrlParameter("file");
+    var subtitleFile = getUrlParameter("subtitle");
+
+    // Periksa jika file video dan subtitle ada, lalu buat player
+    if (videoFile && subtitleFile) {
+        var player = new Playerjs({
+            id: "player",
+            file: videoFile,
+            subtitle: subtitleFile,
+            autoplay: true,
+            hlsconfig: {
+                p2pConfig: {
+                    live: true,
+                },
+                qualityLabelSelector: function(qualityLevels) {
+                }
+            }
+        });
+
+        function PlayerjsEvents(event, id, data) {
+            if (event == "duration") {
+                var duration = data;
+                Android.setDuration(duration); // Kirim durasi ke Android
+            }
+            if (event == "time") {
+                var currentTime = data;
+                Android.setTime(currentTime);
+            }
+        }
+    } else {
+        alert("Video file atau subtitle tidak ditemukan dalam URL.");
+    }
+    </script>
+</body>
+</html>
