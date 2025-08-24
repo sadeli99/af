@@ -43,9 +43,9 @@ module.exports = async (req, res) => {
     }
     
     // Mengubah response ke JSON
-    const data = await response.json();
+    const data = await response.json(); 
 
-    // Memproses data JSON untuk mendapatkan bagian yang diperlukan
+    // Memproses data JSON untukmengf  
     const user = data.result.user;
     const result = {
       nama_lengkap: user.full_name || "Nama belum diisi", // Menyediakan nilai default jika full_name tidak ada
